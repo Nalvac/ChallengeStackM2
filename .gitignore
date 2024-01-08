@@ -1,2 +1,25 @@
 **.env
+**/node_modules
+
 /.idea
+
+# Dossiers et fichiers générés par Symfony
+**/var/
+**/vendor/
+**/bin/
+**/node_modules/
+**/public/bundles/
+**/var/cache/
+**/var/log/
+**/var/sessions/
+**/.phpunit.result.cache
+
+# Environnement spécifique
+**/.env.local
+**/.env.local.php
+**/.env.*.local
+
+# Composer
+**/composer.phar
+**/vendor/
+**/.composer/

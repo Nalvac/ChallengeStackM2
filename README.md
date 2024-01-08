@@ -14,5 +14,6 @@ npm run dev
 
 ```zsh
 cd server
+composer init
 symfony serve:start
 ```
