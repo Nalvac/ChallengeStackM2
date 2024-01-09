@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UsersRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
@@ -39,6 +41,14 @@ class Users
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]
     private ?role $roles = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ProductBatch::class)]
+    private Collection $productBatches;
+
+    public function __construct()
+    {
+        $this->productBatches = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,6 +147,36 @@ class Users
     public function setRoles(?role $roles): static
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductBatch>
+     */
+    public function getProductBatches(): Collection
+    {
+        return $this->productBatches;
+    }
+
+    public function addProductBatch(ProductBatch $productBatch): static
+    {
+        if (!$this->productBatches->contains($productBatch)) {
+            $this->productBatches->add($productBatch);
+            $productBatch->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductBatch(ProductBatch $productBatch): static
+    {
+        if ($this->productBatches->removeElement($productBatch)) {
+            // set the owning side to null (unless already changed)
+            if ($productBatch->getUser() === $this) {
+                $productBatch->setUser(null);
+            }
+        }
 
         return $this;
     }
