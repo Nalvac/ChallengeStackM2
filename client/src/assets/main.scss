@@ -85,7 +85,7 @@ input[type="text"] {
   .input-wrapper {
     @apply flex flex-row border border-primary rounded text-primary px-2.5 py-5 gap-x-2.5 w-full;
 
-    input[type="text"] {
+    input {
       @apply placeholder:text-primary placeholder:italic;
     }
   }
