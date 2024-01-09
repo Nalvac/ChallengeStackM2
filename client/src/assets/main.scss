@@ -13,5 +13,92 @@
 }
 
 body {
-  @apply font-poppins text-base;
+  @apply font-poppins text-base max-w-screen-3xl px-24;
+}
+
+.page-wrapper {
+  @apply flex flex-col;
+  min-height: 100vh;
+
+  #main-content {
+    @apply flex flex-col grow w-full;
+  }
+}
+
+h3,h4 {
+  @apply text-primary font-bold uppercase;
+}
+
+h3 {
+  @apply text-2xl;
+}
+
+h4 {
+  @apply text-xl;
+
+  &.active {
+    @apply text-secondary;
+  }
+}
+
+.btn {
+  @apply bg-white rounded-lg text-primary py-2 px-8 w-fit ease-in-out duration-300;
+
+  &.primary {
+    @apply bg-primary text-white;
+
+    &:hover {
+      @apply bg-secondary;
+    }
+
+    &.outlined {
+      @apply bg-transparent border border-primary text-primary;
+
+      &:hover {
+        @apply bg-secondary text-white;
+      }
+    }
+  }
+
+  &.secondary {
+    @apply bg-secondary text-white;
+
+    &:hover {
+      @apply bg-primary;
+    }
+
+    &.outlined {
+      @apply bg-transparent border border-secondary text-secondary;
+
+      &:hover {
+        @apply bg-primary text-white;
+      }
+    }
+  }
+}
+
+input[type="text"] {
+  @apply border-0 outline-0;
+}
+
+.custom-form {
+  .input-wrapper {
+    @apply flex flex-row border border-primary rounded text-primary px-2.5 py-5 gap-x-2.5 w-full;
+
+    input[type="text"] {
+      @apply placeholder:text-primary placeholder:italic;
+    }
+  }
+}
+
+.element-outline {
+  @apply border border-black bg-transparent rounded-lg py-2.5 px-6;
+
+  &.primary {
+    @apply border-primary;
+  }
+
+  &.secondary {
+    @apply border-secondary text-secondary;
+  }
 }
