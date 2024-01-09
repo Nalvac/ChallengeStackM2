@@ -13,7 +13,7 @@
 }
 
 body {
-  @apply font-poppins text-base;
+  @apply font-poppins text-base max-w-screen-3xl px-24;
 }
 
 .page-wrapper {
@@ -25,14 +25,38 @@ body {
   }
 }
 
+h3,h4 {
+  @apply text-primary font-bold uppercase;
+}
+
+h3 {
+  @apply text-2xl;
+}
+
+h4 {
+  @apply text-xl;
+
+  &.active {
+    @apply text-secondary;
+  }
+}
+
 .btn {
-  @apply bg-white rounded-lg text-primary py-1 px-6 w-fit ease-in-out duration-300;
+  @apply bg-white rounded-lg text-primary py-2 px-8 w-fit ease-in-out duration-300;
 
   &.primary {
     @apply bg-primary text-white;
 
     &:hover {
       @apply bg-secondary;
+    }
+
+    &.outlined {
+      @apply bg-transparent border border-primary text-primary;
+
+      &:hover {
+        @apply bg-secondary text-white;
+      }
     }
   }
 
@@ -42,17 +66,42 @@ body {
     &:hover {
       @apply bg-primary;
     }
-  }
 
-  &.reverse {
-    @apply bg-white text-primary border-primary border-solid border-[1px];
+    &.outlined {
+      @apply bg-transparent border border-secondary text-secondary;
 
-    &:hover {
-      @apply bg-secondary text-white border-secondary border-solid border-[1px];
+      &:hover {
+        @apply bg-primary text-white;
+      }
     }
   }
 }
 
+input[type="text"] {
+  @apply border-0 outline-0;
+}
+
+.custom-form {
+  .input-wrapper {
+    @apply flex flex-row border border-primary rounded text-primary px-2.5 py-5 gap-x-2.5 w-full;
+
+    input[type="text"] {
+      @apply placeholder:text-primary placeholder:italic;
+    }
+  }
+}
+
+.element-outline {
+  @apply border border-black bg-transparent rounded-lg py-2.5 px-6;
+
+  &.primary {
+    @apply border-primary;
+  }
+
+  &.secondary {
+    @apply border-secondary text-secondary;
+  }
+}
 .form-error {
   @apply m-0 font-semibold text-sm text-red-500;
 }
@@ -64,4 +113,3 @@ input {
   width: 100%;
   margin-left: 5px !important;
 }
-
