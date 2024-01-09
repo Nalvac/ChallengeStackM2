@@ -103,7 +103,9 @@ input[type="text"] {
   }
 }
 .form-error {
-  @apply m-0 font-semibold text-sm text-red-500;
+  &::placeholder {
+    @apply m-0 font-semibold text-sm text-red-500;
+  }
 }
 
 

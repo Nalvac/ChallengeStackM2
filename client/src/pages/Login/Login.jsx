@@ -8,7 +8,7 @@ export default function Login() {
 
   const validationSchema= yup.object(
     {
-      email: yup.string().required('Il faut préciser votre email').email("L'email n'est pas valide"),
+      email: yup.string().required('Email requis').email("L'email n'est pas valide"),
       password: yup.string().required('Mot de passe requis').min(4, 'Mot de passe trop court'),
     }
   )
@@ -45,25 +45,32 @@ export default function Login() {
               <div className={styles.title}>
                 <h1 className={'text-primary'}>Connexion</h1>
               </div>
-              <div className={'py-8'}>
-                <div className={`w-[351px] flex flex-row border-primary p-2 ${styles.inputWrapper}`}>
+              <div className={'py-8 custom-form '}>
+                <div className={`w-[351px] flex flex-row input-wrapper`}>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                        stroke="currentColor" className="w-6 h-6 text-primary">
                     <path strokeLinecap="round" strokeLinejoin="round"
                           d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
                   </svg>
-                  <input placeholder={'Adresse email'} name='email' {...register('email')}/>
+                  <input
+                    placeholder={errors.email ? `${errors.email.message}`: 'Adresse email'}
+                    className={errors.email ? 'form-error' : null}
+                    name='email' {...register('email')}
+                  />
                 </div>
-                {errors.email && <p className='form-error'>{errors.email.message}</p>}
-                <div className={`w-[351px] flex flex-row my-5 ${styles.inputWrapper}`}>
+                <div className={`w-[351px] flex flex-row my-5 input-wrapper`}>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-primary">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
                   </svg>
-                  <input placeholder={'Mot de passe'} type='password' name='password' {...register('password')}/>
+                  <input
+                    placeholder={errors.password ? `${errors.password.message}`: 'Mot de passe'}
+                    className={errors.password ? 'form-error' : null}
+                    type='password' name='password'
+                    {...register('password')}
+                  />
                 </div>
-                {errors.password && <p className='form-error'>{errors.password.message}</p>}
               </div>
-              <button disabled={isSubmitting} className="btn reverse">
+              <button disabled={isSubmitting} className="btn primary outlined">
                 Connexion
               </button>
               <a></a>

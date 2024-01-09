@@ -7,10 +7,7 @@
   border-radius: 4px;
 
   .title {
-    h1 {
-      font-size: 18px;
-      font-weight: bold;
-    }
+
     &::after {
       content: '';
       display: block;
