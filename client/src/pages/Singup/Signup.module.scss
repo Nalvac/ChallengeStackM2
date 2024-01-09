@@ -1,0 +1,31 @@
+
+
+.signupContainer {
+
+  padding: 20px;
+  border: 1px solid #09828B;
+  border-radius: 4px;
+
+  .title {
+    h1 {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    &::after {
+      content: '';
+      display: block;
+      width: auto;
+      height: 4px;
+      border-radius: 50px;
+      background-color: #09828B;
+    }
+  }
+
+
+  .inputWrapper {
+    padding: 8px;
+    border: 1px solid #09828B;
+    border-radius: 4px;
+  }
+}
+

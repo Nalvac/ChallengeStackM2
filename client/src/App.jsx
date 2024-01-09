@@ -1,8 +1,10 @@
+import {Outlet} from "react-router-dom";
+
 function App() {
 
   return (
     <>
-        <div className={"text-red-500 text-3xl font-bold"}>Hello world</div>
+      <Outlet></Outlet>
     </>
   )
 }
