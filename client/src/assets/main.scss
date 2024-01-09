@@ -53,6 +53,10 @@ body {
   }
 }
 
+.form-error {
+  @apply m-0 font-semibold text-sm text-red-500;
+}
+
 
 input {
   border: none;
