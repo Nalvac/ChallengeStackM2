@@ -40,7 +40,7 @@ class User
 
     #[ORM\ManyToOne(inversedBy: 'user')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?role $roles = null;
+    private ?Role $roles = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: ProductBatch::class)]
     private Collection $productBatches;
