@@ -34,6 +34,9 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductBatch::class)]
     private Collection $productBatches;
 
+    #[ORM\Column(length: 255)]
+    private ?string $vaccinType = null;
+
     public function __construct()
     {
         $this->productBatches = new ArrayCollection();
@@ -106,6 +109,18 @@ class Product
                 $productBatch->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getVaccinType(): ?string
+    {
+        return $this->vaccinType;
+    }
+
+    public function setVaccinType(string $vaccinType): static
+    {
+        $this->vaccinType = $vaccinType;
 
         return $this;
     }
