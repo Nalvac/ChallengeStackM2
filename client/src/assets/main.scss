@@ -121,3 +121,19 @@ input {
   width: 100%;
   margin-left: 5px !important;
 }
+
+.admin-table {
+  th.ant-table-cell.admin-action-title, .admin-action-title {
+    @apply text-right;
+  }
+
+  .admin-action {
+    &.delete {
+      @apply text-red-500 cursor-pointer;
+
+      &:hover {
+        @apply underline underline-offset-4;
+      }
+    }
+  }
+}
