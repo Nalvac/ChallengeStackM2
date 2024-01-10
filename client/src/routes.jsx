@@ -4,15 +4,15 @@ import Login from "./pages/Login/Login.jsx";
 import Homepage from "./pages/Homepage/Homepage.jsx";
 import Signup from "./pages/Singup/Signup.jsx";
 import Indicator from "./pages/admin/Indicator/Indicator.jsx";
-import User from "./pages/admin/user.jsx";
+import User from "./pages/admin/Data/Users.jsx";
 import Admin from "./pages/admin/Admin.jsx";
 import VaccineByPeriod from "./pages/admin/Indicator/VaccineByPeriod.jsx";
 import VaccineByZone from "./pages/admin/Indicator/VaccineByZone.jsx";
 import VaccineBySupplier from "./pages/admin/Indicator/VaccineBySupplier.jsx";
-import ProductBatch from "./pages/admin/data/ProductBatch.jsx";
-import Products from "./pages/admin/data/Products.jsx";
-import Roles from "./pages/admin/data/Roles.jsx";
-import Transaction from "./pages/admin/data/Transaction.jsx";
+import ProductBatch from "./pages/admin/Data/ProductBatch.jsx";
+import Products from "./pages/admin/Data/Products.jsx";
+import Roles from "./pages/admin/Data/Roles.jsx";
+import Transaction from "./pages/admin/Data/Transaction.jsx";
 
 const router = createBrowserRouter([
   {

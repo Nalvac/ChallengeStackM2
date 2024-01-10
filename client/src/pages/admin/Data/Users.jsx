@@ -1,4 +1,4 @@
-import TableUser from "../../components/tableAdmin/tableUser.jsx";
+import TableUser from "../../../components/tableAdmin/tableUser.jsx";
 
 const Users = () => {
   return (
