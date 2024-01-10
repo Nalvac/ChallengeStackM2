@@ -87,6 +87,12 @@ input[type="text"] {
 
     input[type="text"] {
       @apply placeholder:text-primary placeholder:italic;
+
+      &.field-error {
+        &::placeholder {
+          @apply m-0 font-semibold text-sm text-red-500;
+        }
+      }
     }
   }
 }
@@ -101,4 +107,17 @@ input[type="text"] {
   &.secondary {
     @apply border-secondary text-secondary;
   }
+}
+.form-error {
+  &::placeholder {
+    @apply m-0 font-semibold text-sm text-red-500;
+  }
+}
+
+
+input {
+  border: none;
+  outline: none;
+  width: 100%;
+  margin-left: 5px !important;
 }
