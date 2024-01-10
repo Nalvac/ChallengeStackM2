@@ -83,6 +83,8 @@
         }
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.5",
+        "hautelook/alice-bundle": "^2.13",
         "symfony/maker-bundle": "^1.52"
     }
 }
