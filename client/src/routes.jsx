@@ -25,20 +25,16 @@ const router = createBrowserRouter([
       }
     ]
   },
-    {
-        path: "/",
-        element: <App/>,
-    },
-    {
-        path: "/admin",
-        element: <Admin/>,
-        children: [
-            {
-                path: "users",
-                element: <User/>
-            }
-        ]
-    }
+  {
+    path: "/admin",
+    element: <Admin/>,
+    children: [
+      {
+        path: "users",
+        element: <User/>
+      }
+    ]
+  }
 ]);
 
 export default router;
