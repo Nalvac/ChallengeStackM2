@@ -7,6 +7,7 @@ const Admin = () => {
       <div>
         <a href={"/admin/users"}>Voir les utilisateurs</a>
         <a href={"/admin/roles"}>Voir les rôles</a>
+        <a href={"/admin/products"}>Voir les produits</a>
       </div>
       <Outlet/>
     </div>
