@@ -3,6 +3,8 @@ import App from "./App.jsx";
 import Login from "./pages/Login/Login.jsx";
 import Homepage from "./pages/Homepage/Homepage.jsx";
 import Signup from "./pages/Singup/Signup.jsx";
+import Indicator from "./pages/admin/Indicator.jsx";
+import Data from "./pages/admin/Data.jsx";
 
 const router = createBrowserRouter([
   {
@@ -10,8 +12,18 @@ const router = createBrowserRouter([
     element: <App/>,
     children: [
       {
-        index: true,
-        element: <Homepage/>
+        path: '/',
+        element: <Homepage/>,
+        children: [
+          {
+            path: 'indicator',
+            element: <Indicator/>
+          },
+          {
+            path: '/data',
+            element: <Data/>
+          }
+        ]
       },
       {
         path: 'login',
