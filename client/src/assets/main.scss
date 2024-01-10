@@ -34,7 +34,7 @@ h3 {
 }
 
 h4 {
-  @apply text-xl;
+  @apply text-xl font-bold;
 
   &.active {
     @apply text-secondary;
