@@ -5,6 +5,7 @@ import Homepage from "./pages/Homepage/Homepage.jsx";
 import Signup from "./pages/Singup/Signup.jsx";
 import Indicator from "./pages/admin/Indicator/Indicator.jsx";
 import User from "./pages/admin/Data/Users.jsx";
+import Users from "./pages/admin/Data/Users.jsx";
 import Admin from "./pages/admin/Admin.jsx";
 import VaccineByPeriod from "./pages/admin/Indicator/VaccineByPeriod.jsx";
 import VaccineByZone from "./pages/admin/Indicator/VaccineByZone.jsx";

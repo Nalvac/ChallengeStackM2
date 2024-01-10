@@ -10,15 +10,15 @@ export default function Header (){
           </div>
           <div className={'flex justify-center items-center'}>
             <NavLink to={'indicator'} className={`mr-5`} >
-              <h4>Indicateurs</h4>
+              <h4 className={"font-bold"}>Indicateurs</h4>
             </NavLink>
             <NavLink to={'admin'}>
-              <h4>Données</h4>
+              <h4 className={"font-bold"}>Données</h4>
             </NavLink>
           </div>
         </div>
         <div className={'ml-5 flex justify-center items-center w-1/5 '}>
-          <h3 className={'mr-2'}>Bienvenue Joe Doe !</h3>
+          <h3 className={'mr-2 font-bold'}>Bienvenue Joe Doe !</h3>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-primary">
             <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
           </svg>
