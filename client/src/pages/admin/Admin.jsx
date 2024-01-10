@@ -1,11 +1,11 @@
 import {Outlet} from "react-router-dom";
+import AdminTab from "../../components/AdminTab/AdminTab.jsx";
 
 const Admin = () => {
     return (
         <div>
-            <p>Bienvenue sur l'admin</p>
-            <a href={"/admin/users"}>Voir les utilisateurs</a>
-            <Outlet/>
+          <AdminTab/>
+          <Outlet/>
         </div>
     )
 }
