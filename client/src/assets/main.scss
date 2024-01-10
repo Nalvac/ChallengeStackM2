@@ -13,7 +13,7 @@
 }
 
 body {
-  @apply font-poppins text-base max-w-screen-3xl px-24;
+  @apply font-poppins text-base max-w-screen-3xl px-24 relative;
 }
 
 .page-wrapper {
@@ -38,6 +38,16 @@ h4 {
 
   &.active {
     @apply text-secondary;
+  }
+}
+
+.active {
+  h4 {
+    @apply text-secondary;
+  }
+
+  button {
+    @apply bg-secondary text-white;
   }
 }
 
@@ -112,6 +122,10 @@ input[type="text"] {
   &::placeholder {
     @apply m-0 font-semibold text-sm text-red-500;
   }
+}
+
+header {
+  @apply h-16 border-b-4 border-primary absolute top-0 left-0 right-0;
 }
 
 
