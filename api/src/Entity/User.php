@@ -45,6 +45,9 @@ class User
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: ProductBatch::class)]
     private Collection $productBatches;
 
+    #[ORM\Column(length: 255)]
+    private ?string $land = null;
+
     public function __construct()
     {
         $this->productBatches = new ArrayCollection();
@@ -181,6 +184,18 @@ class User
                 $productBatch->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLand(): ?string
+    {
+        return $this->land;
+    }
+
+    public function setLand(string $land): static
+    {
+        $this->land = $land;
 
         return $this;
     }
