@@ -27,7 +27,7 @@ class ProductBatch
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'productBatches')]
-    private ?Users $user = null;
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -70,12 +70,12 @@ class ProductBatch
         return $this;
     }
 
-    public function getUser(): ?Users
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(?Users $user): static
+    public function setUser(?User $user): static
     {
         $this->user = $user;
 

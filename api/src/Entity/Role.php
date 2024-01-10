@@ -23,12 +23,12 @@ class Role
     #[Groups(['getRoles'])]
     private ?string $role = null;
 
-    #[ORM\OneToMany(mappedBy: 'roles', targetEntity: Users::class)]
-    private Collection $users;
+    #[ORM\OneToMany(mappedBy: 'roles', targetEntity: User::class)]
+    private Collection $user;
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -49,26 +49,26 @@ class Role
     }
 
     /**
-     * @return Collection<int, Users>
+     * @return Collection<int, User>
      */
-    public function getUsers(): Collection
+    public function getUser(): Collection
     {
-        return $this->users;
+        return $this->user;
     }
 
-    public function addUser(Users $user): static
+    public function addUser(User $user): static
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
+        if (!$this->user->contains($user)) {
+            $this->user->add($user);
             $user->setRoles($this);
         }
 
         return $this;
     }
 
-    public function removeUser(Users $user): static
+    public function removeUser(User $user): static
     {
-        if ($this->users->removeElement($user)) {
+        if ($this->user->removeElement($user)) {
             // set the owning side to null (unless already changed)
             if ($user->getRoles() === $this) {
                 $user->setRoles(null);
