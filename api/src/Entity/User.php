@@ -3,14 +3,14 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use App\Repository\UsersRepository;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: UsersRepository::class)]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource]
-class Users
+class User
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -38,16 +38,23 @@ class Users
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $password = null;
 
-    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\ManyToOne(inversedBy: 'user')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?role $roles = null;
+    private ?Role $roles = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: ProductBatch::class)]
     private Collection $productBatches;
 
+    #[ORM\Column(length: 255)]
+    private ?string $land = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: CustomerTransaction::class)]
+    private Collection $customerTransactions;
+
     public function __construct()
     {
         $this->productBatches = new ArrayCollection();
+        $this->customerTransactions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -58,6 +65,10 @@ class Users
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function getUsername(): string {
+        return $this->getName();
     }
 
     public function setName(string $name): static
@@ -175,6 +186,48 @@ class Users
             // set the owning side to null (unless already changed)
             if ($productBatch->getUser() === $this) {
                 $productBatch->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getLand(): ?string
+    {
+        return $this->land;
+    }
+
+    public function setLand(string $land): static
+    {
+        $this->land = $land;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CustomerTransaction>
+     */
+    public function getCustomerTransactions(): Collection
+    {
+        return $this->customerTransactions;
+    }
+
+    public function addCustomerTransaction(CustomerTransaction $customerTransaction): static
+    {
+        if (!$this->customerTransactions->contains($customerTransaction)) {
+            $this->customerTransactions->add($customerTransaction);
+            $customerTransaction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomerTransaction(CustomerTransaction $customerTransaction): static
+    {
+        if ($this->customerTransactions->removeElement($customerTransaction)) {
+            // set the owning side to null (unless already changed)
+            if ($customerTransaction->getUser() === $this) {
+                $customerTransaction->setUser(null);
             }
         }
 
