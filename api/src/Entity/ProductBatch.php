@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ProductBatchRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -32,6 +34,14 @@ class ProductBatch
 
     #[ORM\ManyToOne(inversedBy: 'productBatches')]
     private ?User $user = null;
+
+    #[ORM\OneToMany(mappedBy: 'productBatch', targetEntity: CustomerTransaction::class)]
+    private Collection $customerTransactions;
+
+    public function __construct()
+    {
+        $this->customerTransactions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -82,6 +92,36 @@ class ProductBatch
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CustomerTransaction>
+     */
+    public function getCustomerTransactions(): Collection
+    {
+        return $this->customerTransactions;
+    }
+
+    public function addCustomerTransaction(CustomerTransaction $customerTransaction): static
+    {
+        if (!$this->customerTransactions->contains($customerTransaction)) {
+            $this->customerTransactions->add($customerTransaction);
+            $customerTransaction->setProductBatch($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomerTransaction(CustomerTransaction $customerTransaction): static
+    {
+        if ($this->customerTransactions->removeElement($customerTransaction)) {
+            // set the owning side to null (unless already changed)
+            if ($customerTransaction->getProductBatch() === $this) {
+                $customerTransaction->setProductBatch(null);
+            }
+        }
 
         return $this;
     }

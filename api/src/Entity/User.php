@@ -48,9 +48,13 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $land = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: CustomerTransaction::class)]
+    private Collection $customerTransactions;
+
     public function __construct()
     {
         $this->productBatches = new ArrayCollection();
+        $this->customerTransactions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -196,6 +200,36 @@ class User
     public function setLand(string $land): static
     {
         $this->land = $land;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CustomerTransaction>
+     */
+    public function getCustomerTransactions(): Collection
+    {
+        return $this->customerTransactions;
+    }
+
+    public function addCustomerTransaction(CustomerTransaction $customerTransaction): static
+    {
+        if (!$this->customerTransactions->contains($customerTransaction)) {
+            $this->customerTransactions->add($customerTransaction);
+            $customerTransaction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomerTransaction(CustomerTransaction $customerTransaction): static
+    {
+        if ($this->customerTransactions->removeElement($customerTransaction)) {
+            // set the owning side to null (unless already changed)
+            if ($customerTransaction->getUser() === $this) {
+                $customerTransaction->setUser(null);
+            }
+        }
 
         return $this;
     }
