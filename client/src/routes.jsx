@@ -5,6 +5,8 @@ import Homepage from "./pages/Homepage/Homepage.jsx";
 import Signup from "./pages/Singup/Signup.jsx";
 import Indicator from "./pages/admin/Indicator.jsx";
 import Data from "./pages/admin/Data.jsx";
+import User from "./pages/admin/user.jsx";
+import Admin from "./pages/admin/Admin.jsx";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +37,16 @@ const router = createBrowserRouter([
       }
     ]
   },
+  {
+    path: "/admin",
+    element: <Admin/>,
+    children: [
+      {
+        path: "users",
+        element: <User/>
+      }
+    ]
+  }
 ]);
 
 export default router;
