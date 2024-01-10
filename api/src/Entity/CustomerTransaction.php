@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CustomerTransactionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CustomerTransactionRepository::class)]
 #[ApiResource]
@@ -14,12 +15,15 @@ class CustomerTransaction
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getCustomerTransaction'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['getCustomerTransaction'])]
     private ?int $quantity = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['getCustomerTransaction'])]
     private ?\DateTimeInterface $deliveryDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'customerTransactions')]
