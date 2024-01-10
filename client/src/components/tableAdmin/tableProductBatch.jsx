@@ -2,34 +2,31 @@ import {Space, Table} from "antd";
 const { Column } = Table;
 import {useEffect, useState} from "react";
 
-const TableProduct = () => {
+const TableProductBatch = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     setData([
       {
         key: '1',
-        name: 'Covid-19',
-        brand: 'Pfizer',
-        stockAlert: '100',
-        stockTotal: '500',
-        type: 'ARN',
+        name_brand: 'Covid-19 Pfizer',
+        fournisseur: 'Pfizer',
+        batch_stock: '100',
+        expiration_date: '01/01/2025',
       },
       {
         key: '2',
-        name: 'Test',
-        brand: 'Test',
-        stockAlert: '200',
-        stockTotal: '300',
-        type: 'Normal',
+        name_brand: 'Toto Tata',
+        fournisseur: 'Tata',
+        batch_stock: '1000',
+        expiration_date: '10/10/2025',
       },
       {
         key: '3',
-        name: 'Toto',
-        brand: 'Tata',
-        stockAlert: '10',
-        stockTotal: '20',
-        type: 'ARN',
+        name_brand: 'Test',
+        fournisseur: 'Test',
+        batch_stock: '100',
+        expiration_date: '30/30/2030',
       },
     ]);
   }, []);
@@ -38,11 +35,10 @@ const TableProduct = () => {
   return (
     <div className="mt-5 mb-10 admin-table">
       <Table dataSource={data} rowKey={'id'}>
-        <Column title="Name" dataIndex="name" key="name"/>
-        <Column title="Brand" dataIndex="brand" key="brand"/>
-        <Column title="Alert Stock" dataIndex="stockAlert" key="stockAlert"/>
-        <Column title="Total Stock" dataIndex="stockTotal" key="stockTotal"/>
-        <Column title="Type" dataIndex="type" key="type"/>
+        <Column title="Name Brand" dataIndex="name_brand" key="name_brand"/>
+        <Column title="Fournisseur" dataIndex="fournisseur" key="fournisseur"/>
+        <Column title="Batch Stock" dataIndex="batch_stock" key="batch_stock"/>
+        <Column title="Expiration Date" dataIndex="expiration_date" key="expiration_date"/>
         <Column title="Action" key="action" className={"admin-action-title"} render={(_, record) => (
           <Space size="middle">
             <a href={"#"} className={"btn secondary admin-action"}>
@@ -58,4 +54,4 @@ const TableProduct = () => {
   )
 }
 
-export default TableProduct;
+export default TableProductBatch;
