@@ -6,6 +6,7 @@ import Signup from "./pages/Singup/Signup.jsx";
 import Users from "./pages/admin/Users.jsx";
 import Admin from "./pages/admin/Admin.jsx";
 import Roles from "./pages/admin/Roles.jsx";
+import Products from "./pages/admin/Products.jsx";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "roles",
         element: <Roles/>
+      },
+      {
+        path: "products",
+        element: <Products/>
       },
     ]
   }
