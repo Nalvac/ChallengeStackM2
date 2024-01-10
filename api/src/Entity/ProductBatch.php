@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ProductBatchRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProductBatchRepository::class)]
 #[ApiResource]
@@ -14,12 +15,15 @@ class ProductBatch
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getProductBatch'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['getProductBatch'])]
     private ?\DateTimeInterface $dateExp = null;
 
     #[ORM\Column]
+    #[Groups(['getProductBatch'])]
     private ?int $quantity = null;
 
     #[ORM\ManyToOne(inversedBy: 'productBatches')]
