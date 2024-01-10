@@ -1,10 +1,9 @@
-import {createBrowserRouter} from "react-router-dom";
+import {createBrowserRouter, redirect} from "react-router-dom";
 import App from "./App.jsx";
 import Login from "./pages/Login/Login.jsx";
 import Homepage from "./pages/Homepage/Homepage.jsx";
 import Signup from "./pages/Singup/Signup.jsx";
 import Indicator from "./pages/admin/Indicator.jsx";
-import Data from "./pages/admin/Data.jsx";
 import User from "./pages/admin/user.jsx";
 import Admin from "./pages/admin/Admin.jsx";
 
@@ -14,6 +13,11 @@ const router = createBrowserRouter([
     element: <App/>,
     children: [
       {
+        index: true,
+        loader: async () => {return redirect('indicator')},
+      },
+      {
+
         path: '/',
         element: <Homepage/>,
         children: [
@@ -22,8 +26,14 @@ const router = createBrowserRouter([
             element: <Indicator/>
           },
           {
-            path: '/data',
-            element: <Data/>
+            path: "/admin",
+            element: <Admin/>,
+            children: [
+              {
+                path: "users",
+                element: <User/>
+              }
+            ]
           }
         ]
       },
@@ -37,16 +47,6 @@ const router = createBrowserRouter([
       }
     ]
   },
-  {
-    path: "/admin",
-    element: <Admin/>,
-    children: [
-      {
-        path: "users",
-        element: <User/>
-      }
-    ]
-  }
 ]);
 
 export default router;
