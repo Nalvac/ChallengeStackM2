@@ -32,6 +32,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
     description: 'Get Vaccin by Years',
     name: 'get_tension_vaccin'
   ),
+  new Post(
+    uriTemplate: '/localisation/vaccin',
+    controller: TensionVaccinController::class,
+    description: 'Get Vaccin by Localisation',
+    name: 'get_localisation_vaccin'
+  ),
+  new Post(
+    uriTemplate: '/localisation/best/vaccin',
+    controller: TensionVaccinController::class,
+    description: 'Get Best Vaccin by Localisation',
+    name: 'get_localisation_best_vaccin'
+  ),
   new Put(),
   new Delete()
 ])]
