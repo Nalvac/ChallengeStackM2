@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\CustomerTransactionRepository;
+use App\Repository\ProductBatchRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,6 +64,21 @@ class TensionVaccinController extends AbstractController
       $localisationBestVaccin = $customerTransactionRepository->findBestVaccinByLocalisation($city);
 
       $res = $serializer->serialize($localisationBestVaccin, 'json');
+
+      return new JsonResponse($res, 200, [], true);
+    }
+
+    #[Route('/api/localisation/best/supplier', name: 'get_localisation_best_supplier', methods: ['POST'])]
+    public function getBestSupplierByLocalisation(ProductBatchRepository $productBatchRepository, SerializerInterface $serializer, Request $request): JsonResponse
+    {
+      $data = $request->getContent();
+      $jsonData = json_decode($data, true);
+
+      $city = $jsonData['city'];
+
+      $localisationBestSupplier = $productBatchRepository->findBestSupplier($city);
+
+      $res = $serializer->serialize($localisationBestSupplier, 'json');
 
       return new JsonResponse($res, 200, [], true);
     }

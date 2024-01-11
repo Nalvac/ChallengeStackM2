@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\ProductBatch;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,28 +22,17 @@ class ProductBatchRepository extends ServiceEntityRepository
         parent::__construct($registry, ProductBatch::class);
     }
 
-//    /**
-//     * @return ProductBatch[] Returns an array of ProductBatch objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+  public function findBestSupplier(string $localisation): array
+  {
+    $qb = $this->createQueryBuilder('pb');
 
-//    public function findOneBySomeField($value): ?ProductBatch
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    $qb->select('SUM(pb.quantity) as quantite', 'user.name')
+      ->innerJoin(User::class, 'user', 'WITH', 'user.id = pb.user')
+      ->where('user.city = :localisations')
+      ->setParameter('localisations', $localisation)
+      ->groupBy('user.id')
+      ->orderBy('quantite', 'DESC');
+
+    return $qb->getQuery()->getResult();
+  }
 }
