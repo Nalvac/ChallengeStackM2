@@ -91,12 +91,16 @@ input[type="text"] {
   @apply border-0 outline-0;
 }
 
+select {
+  @apply border-0 outline-0 w-full;
+}
+
 .custom-form {
   .input-wrapper {
     @apply flex flex-row border border-primary rounded text-primary px-2.5 py-5 gap-x-2.5 w-full;
 
-    input[type="text"] {
-      @apply placeholder:text-primary placeholder:italic;
+    input[type="text"], input[type="number"] {
+      @apply placeholder:text-primary placeholder:italic text-black;
 
       &.field-error {
         &::placeholder {
