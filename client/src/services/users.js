@@ -55,5 +55,9 @@ export async function updateUser(name, mail, phone, zip_code, city, land, addres
 }
 
 export async function deleteUserById(userId) {
-  
+  try {
+    return await axios.delete(`${API_URL}/users/${userId}`);
+  } catch (e)  {
+    console.log(e);
+  }
 }

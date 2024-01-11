@@ -42,10 +42,8 @@ export default function Signup({openModal, isModalOpen, closeModal, userValue}) 
     land: userValue ? userValue.land : '',
     address: userValue ? userValue.adress : '',
     password: userValue ? userValue.password : '',
-    roles: userValue ? userValue.roles.slice(-1) : '',
+    roles: userValue ? userValue.roles.id : '',
   }
-
-  console.log(defaultValue);
 
   const {
     handleSubmit,
@@ -63,8 +61,6 @@ export default function Signup({openModal, isModalOpen, closeModal, userValue}) 
     } else {
       response = await addUser(user.name, user.mail, user.phone, user.zipCode, user.city, user.land, user.address, user.password, user.roles);
     }
-
-    console.log(response);
 
     if(response && response.status === 201 || response.status === 200)
     {

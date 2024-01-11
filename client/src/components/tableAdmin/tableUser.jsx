@@ -2,31 +2,23 @@
 import {Space, Table} from "antd";
 const { Column } = Table;
 import {useEffect, useState} from "react";
-import {getUsers} from "../../services/users.js";
-import {getRoleById} from "../../services/roles.js";
+import {deleteUserById, getUsers} from "../../services/users.js";
 import Signup from "../../pages/Singup/Signup.jsx";
+import {deleteRoleById} from "../../services/roles.js";
 
 const TableUser = () => {
   const [data, setData] = useState([]);
-  const [role, setRole] = useState('');
   const [existingUser, setExistingUser] = useState();
   const [isModalOpen, setModalOpen] = useState(false);
 
   const getUsersList = async () => {
     const response = await getUsers();
     setData(response);
-    // console.log(response);
   }
 
   useEffect(() => {
     getUsersList();
   }, []);
-
-  const getRole = async (roleId) => {
-    const response = await getRoleById(roleId);
-    setRole(response);
-    // console.log(response);
-  }
 
   const openModal = (user) => {
     setModalOpen(true);
@@ -38,6 +30,11 @@ const TableUser = () => {
     setExistingUser(undefined);
   };
 
+  const deleteUser = async (userId) => {
+    await deleteUserById(userId);
+    setData(data.filter(item => item.id !== userId));
+  }
+
     return (
       <div className="mt-5 mb-10 admin-table">
         <Table dataSource={data} rowKey={'id'}>
@@ -48,14 +45,14 @@ const TableUser = () => {
           <Column title="City" dataIndex="city" key="city"/>
           <Column title="Country" dataIndex="land" key="land"/>
           <Column title="Zip Code" dataIndex="zip_code" key="zip_code"/>
-          <Column title="Role" dataIndex="roles" key="roles"/>
+          <Column title="Role" dataIndex="roles" key="roles" render={roles => roles ? roles.role : "" }/>
           <Column title="Action" key="action" className={"admin-action-title"} render={(_, record) => (
             <Space size="middle">
               <a href={"#"} className={"btn secondary admin-action"} onClick={() => openModal(record)}>
                 Modifier
               </a>
               <span className="admin-action delete" onClick={() => {
-                console.log('Setup delete')
+                deleteUser(record.id);
               }}>Supprimer</span>
             </Space>
           )} />
