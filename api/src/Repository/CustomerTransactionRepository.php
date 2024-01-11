@@ -47,7 +47,7 @@ class CustomerTransactionRepository extends ServiceEntityRepository
       $dateLikes = $deliveryDates . '%';
 
 
-      $qb->select('SUM(ct.quantity) as quantite', 'p.name', 'p.brand', 'ct.deliveryDate')
+      $qb->select('SUM(ct.quantity) as quantite', 'p.name', 'p.brand', 'ct.deliveryDate', 'p.id')
         ->innerJoin(ProductBatch::class, 'pb', 'WITH', 'pb.id = ct.productBatch')
         ->innerJoin(Product::class, 'p', 'WITH', 'p.id = pb.product')
         ->where($qb->expr()->in('p.id', ':productIds'))
