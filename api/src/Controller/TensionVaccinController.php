@@ -36,4 +36,35 @@ class TensionVaccinController extends AbstractController
       return new JsonResponse($res, 200, [], true);
     }
 
+    #[Route('/api/localisation/vaccin', name: 'get_localisation_vaccin', methods: ['POST'])]
+    public function getLocalisationVaccin(CustomerTransactionRepository $customerTransactionRepository, SerializerInterface $serializer, Request $request): JsonResponse
+    {
+      $data = $request->getContent();
+      $jsonData = json_decode($data, true);
+
+      $product = $jsonData['productIds'];
+      $city = $jsonData['city'];
+
+      $localisationVaccin = $customerTransactionRepository->findVaccinByQuantityByLocalisation($product, $city);
+
+      $res = $serializer->serialize($localisationVaccin, 'json');
+
+      return new JsonResponse($res, 200, [], true);
+    }
+
+    #[Route('/api/localisation/best/vaccin', name: 'get_localisation_best_vaccin', methods: ['POST'])]
+    public function getBestVaccinByLocalisation(CustomerTransactionRepository $customerTransactionRepository, SerializerInterface $serializer, Request $request): JsonResponse
+    {
+      $data = $request->getContent();
+      $jsonData = json_decode($data, true);
+
+      $city = $jsonData['city'];
+
+      $localisationBestVaccin = $customerTransactionRepository->findBestVaccinByLocalisation($city);
+
+      $res = $serializer->serialize($localisationBestVaccin, 'json');
+
+      return new JsonResponse($res, 200, [], true);
+    }
+
 }

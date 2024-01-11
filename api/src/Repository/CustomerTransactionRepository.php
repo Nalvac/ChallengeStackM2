@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\CustomerTransaction;
 use App\Entity\Product;
 use App\Entity\ProductBatch;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -22,31 +23,6 @@ class CustomerTransactionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, CustomerTransaction::class);
     }
-
-//    /**
-//     * @return CustomerTransaction[] Returns an array of CustomerTransaction objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?CustomerTransaction
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 
     public function findBestVaccin(): array
     {
@@ -82,4 +58,41 @@ class CustomerTransactionRepository extends ServiceEntityRepository
 
       return $qb->getQuery()->getResult();
     }
+
+    public function findVaccinByQuantityByLocalisation(array $productIds, array $localisations)
+    {
+      $qb = $this->createQueryBuilder('ct');
+
+      $qb->select('SUM(ct.quantity) as quantite', 'p.name', 'p.brand', 'user.city', 'user.land')
+        ->innerJoin(ProductBatch::class, 'pb', 'WITH', 'pb.id = ct.productBatch')
+        ->innerJoin(Product::class, 'p', 'WITH', 'p.id = pb.product')
+        ->innerJoin(User::class, 'user', 'WITH', 'user.id = ct.user')
+        ->where($qb->expr()->in('p.id', ':productIds'))
+        ->andWhere($qb->expr()->in('user.city', ':localisations'))
+        ->setParameter('productIds', $productIds)
+        ->setParameter('localisations', $localisations)
+        ->groupBy('p.id, user.city')
+        ->orderBy('user.city', 'ASC', 'p.id', 'ASC');
+
+      return $qb->getQuery()->getResult();
+    }
+
+  public function findBestVaccinByLocalisation(array $city): array
+  {
+    $qb = $this->createQueryBuilder('ct');
+
+    $qb->select('SUM(ct.quantity) as quantite', 'p.name', 'p.brand')
+      ->innerJoin(ProductBatch::class, 'pb', 'WITH', 'pb.id = ct.productBatch')
+      ->innerJoin(Product::class, 'p', 'WITH', 'p.id = pb.product')
+      ->innerJoin(User::class, 'user', 'WITH', 'user.id = ct.user')
+      ->where($qb->expr()->in('user.city', ':localisations'))
+      ->setParameter('localisations', $city)
+      ->groupBy('p.id')
+      ->orderBy('quantite', 'DESC')
+      ->setMaxResults(1);
+
+    return $qb->getQuery()->getSingleResult();
+  }
+
+
 }
