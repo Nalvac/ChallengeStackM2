@@ -1,6 +1,6 @@
-import TableProductBatch from "../../../../components/tableAdmin/tableProductBatch.jsx";
+import TableProductBatch from "../../../components/tableAdmin/tableProductBatch.jsx";
 import {useState} from "react";
-import ProductBatchPopupForm from "./ManageProductBatch.jsx";
+import ProductBatchPopupForm from "./Products/ManageProductBatch.jsx";
 
 const ProductBatch = () => {
 
