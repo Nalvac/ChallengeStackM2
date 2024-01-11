@@ -17,3 +17,9 @@ cd server
 composer init
 symfony serve:start
 ```
+
+### Fixtures
+
+```zsh
+symfony console hautelook:fixtures:load --purge-with-truncate
+```

@@ -1,0 +1,48 @@
+App\Entity\Role:
+  role1:
+    role: Admin
+  role2:
+    role: Magasinier
+  role3:
+    role: Commercial
+  role4:
+    role: Fournisseur
+  role5:
+    role: Officine
+
+App\Entity\User:
+  user{1..10}:
+    name: '<name()>'
+    password: '<password()>'
+    mail: '<email()>'
+    roles: '@role*'
+    city: '<city()>'
+    adress: '<address()>'
+    land: '<country()>'
+    zipCode: '<numberBetween(69000, 69999)>'
+    phone: '<phoneNumber()>'
+
+App\Entity\Product:
+  product_{1..30}:
+    name: '<randomElement(["Covid", "Grippe", "Tétanos", "Coqueluche", "Hépatite"])>'
+    brand: '<randomElement(["Pfizer", "Moderna", "bioNTech", "AstraZeneca"])>'
+    stock_alert: '<numberBetween(50, 200)>'
+    vaccinType: '<randomElement(["ARNm", "Virus inactivé", "Virus atténué", "Virus fragmenté", "Virus recombinant", "Toxine inactivée", "Toxine atténuée", "Toxine fragmentée", "Toxine recombinante"])>'
+
+
+App\Entity\ProductBatch:
+  productBatch{1..30}:
+    user: '@user*'
+    product: '@product_*'
+    quantity: '<numberBetween(50, 200)>'
+    dateExp: '<dateTimeBetween("now", "+1 year")>'
+
+App\Entity\CustomerTransaction:
+  customerTransaction{1..30}:
+    quantity: '<numberBetween(50, 200)>'
+    deliveryDate: '<dateTimeBetween("now", "+1 year")>'
+    productBatch: '@productBatch*'
+    user: '@user*'
+
+
+
