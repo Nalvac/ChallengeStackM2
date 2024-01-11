@@ -1,55 +1,29 @@
 import {Space, Table} from "antd";
+import {useEffect} from "react";
 const { Column } = Table;
-import {useEffect, useState} from "react";
 
-const TableProduct = () => {
-  const [data, setData] = useState([]);
+const TableProduct = ({products, editProduct, deleteProduct}) => {
 
   useEffect(() => {
-    setData([
-      {
-        key: '1',
-        name: 'Covid-19',
-        brand: 'Pfizer',
-        stockAlert: '100',
-        stockTotal: '500',
-        type: 'ARN',
-      },
-      {
-        key: '2',
-        name: 'Test',
-        brand: 'Test',
-        stockAlert: '200',
-        stockTotal: '300',
-        type: 'Normal',
-      },
-      {
-        key: '3',
-        name: 'Toto',
-        brand: 'Tata',
-        stockAlert: '10',
-        stockTotal: '20',
-        type: 'ARN',
-      },
-    ]);
-  }, []);
+
+  },[products])
 
 
   return (
     <div className="mt-5 mb-10 admin-table">
-      <Table dataSource={data} rowKey={'id'}>
+      <Table dataSource={[...products].reverse()} rowKey={'id'} >
         <Column title="Name" dataIndex="name" key="name"/>
         <Column title="Brand" dataIndex="brand" key="brand"/>
         <Column title="Alert Stock" dataIndex="stockAlert" key="stockAlert"/>
         <Column title="Total Stock" dataIndex="stockTotal" key="stockTotal"/>
-        <Column title="Type" dataIndex="type" key="type"/>
+        <Column title="Type" dataIndex="vaccinType" key="vaccinType"/>
         <Column title="Action" key="action" className={"admin-action-title"} render={(_, record) => (
           <Space size="middle">
-            <a href={"#"} className={"btn secondary admin-action"}>
+            <button className={"btn secondary admin-action"} onClick={() => {editProduct(record.id)}}>
               Modifier
-            </a>
+            </button>
             <span className="admin-action delete" onClick={() => {
-              console.log('Setup delete')
+              deleteProduct(record.id)
             }}>Supprimer</span>
           </Space>
         )} />

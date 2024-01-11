@@ -2,38 +2,59 @@ import Modal from 'react-modal';
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
+import {addProduct, updateProduct} from "../../../../services/productService.js";
+import {useEffect} from "react";
 
 Modal.setAppElement('#root');
-const ProductPopupForm = ({openModal, isModalOpen, closeModal}) => {
+const ProductPopupForm = ({openModal, isModalOpen, closeModal, product, products, setProducts}) => {
 
 
   const validationSchema= yup.object(
     {
       name: yup.string(),
       brand: yup.string(),
-      alertStock: yup.number(),
+      stockAlert: yup.number(),
       totalStock: yup.number(),
-      type: yup.string(),
+      vaccinType: yup.string(),
     }
   )
 
   const initialValues =  {
-    name: '',
-    brand: '',
-    alertStock: '',
-    totalStock: '',
-    type: 'NORMAL',
+    name: product ? product.name : '',
+    brand: product ? product.brand : '',
+    stockAlert: product ? product.stockAlert :'',
+    totalStock: product ? product.stockAlert :'',
+    vaccinType: product ? product.vaccinType : '',
   }
+
+  useEffect(()=> {
+
+  }, [products])
+
 
   const {
     handleSubmit,
     register,
+    formState: {isSubmitting}
   } = useForm({defaultValues: initialValues, resolver: yupResolver(validationSchema)});
 
+
   const submit = handleSubmit(async(values) => {
-    console.log(values);
-    closeModal()
+
+    if(product)
+    {
+      await updateProduct(product.id, {...values});
+      setProducts(products.map((p) => p.id === product.id ? {...values, id: product.id} : p));
+    } else {
+
+      await addProduct(values)
+      setProducts([...products, {...values, id: products[products.length -1].id + 1}])
+    }
+
+    closeModal();
   })
+
+
 
 
   const customStyles = {
@@ -74,9 +95,9 @@ const ProductPopupForm = ({openModal, isModalOpen, closeModal}) => {
             <div className={`w-[351px] flex flex-row my-5 input-wrapper`}>
               <input
                 type='number'
-                name={'alertStock'}
+                name={'stockAlert'}
                 placeholder='Alert Stock'
-                {...register('alertStock')}
+                {...register('stockAlert')}
               />
             </div>
             <div className={`w-[351px] flex flex-row my-5 input-wrapper`}>
@@ -88,13 +109,13 @@ const ProductPopupForm = ({openModal, isModalOpen, closeModal}) => {
               />
             </div>
             <div className={`w-[351px] flex flex-row my-5 input-wrapper`}>
-              <select value={'NORMAL'} name={'type'} {...register('type')}>
+              <select name={'type'} {...register('vaccinType')}>
                 <option value={'ARN'}>ARN</option>
                 <option value={'NORMAL'}>NORMAL</option>
               </select>
             </div>
           </div>
-          <button className={'btn primary flex justify-end'}>Enregistrer</button>
+          <button disabled={isSubmitting} className={'btn primary flex justify-end'}>Enregistrer</button>
         </form>
         <div className={'flex justify-end'}>
           <button className={'btn primary'} onClick={closeModal}>Fermer</button>
