@@ -27,7 +27,7 @@ class User
   private ?string $phone = null;
 
   #[ORM\Column]
-  private ?int $zip_code = null;
+  private ?string $zip_code = null;
 
   #[ORM\Column(length: 255)]
   private ?string $city = null;
@@ -102,12 +102,12 @@ class User
     return $this;
   }
 
-  public function getZipCode(): ?int
+  public function getZipCode(): ?string
   {
     return $this->zip_code;
   }
 
-  public function setZipCode(int $zip_code): static
+  public function setZipCode(string $zip_code): static
   {
     $this->zip_code = $zip_code;
 
