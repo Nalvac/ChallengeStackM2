@@ -19,7 +19,7 @@ App\Entity\User:
     city: '<city()>'
     adress: '<address()>'
     land: '<country()>'
-    zipCode: '<numberBetween(69000, 69999)>'
+    zipCode: '<postcode()>'
     phone: '<phoneNumber()>'
 
 App\Entity\Product:
