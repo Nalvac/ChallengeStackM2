@@ -22,14 +22,8 @@ ChartJS.register(
 
 const CustomChart = ({type, options, data}) => {
 
-  const profitChartRef = useRef();
-
-  if (profitChartRef?.current) {
-    profitChartRef.current.chartInstance.destroy();
-  }
-
   return (
-    <Chart type={type} options={options} data={data} ref={profitChartRef} redraw/>
+    <Chart type={type} options={options} data={data} redraw/>
   )
 }
 
