@@ -3,6 +3,12 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Controller\ProductBatchController;
 use App\Repository\ProductBatchRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -29,10 +35,11 @@ class ProductBatch
     private ?int $quantity = null;
 
     #[ORM\ManyToOne(inversedBy: 'productBatches')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'productBatches')]
+    #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private ?User $user = null;
 
     #[ORM\OneToMany(mappedBy: 'productBatch', targetEntity: CustomerTransaction::class)]
