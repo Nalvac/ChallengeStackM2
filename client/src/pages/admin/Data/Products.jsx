@@ -1,6 +1,6 @@
-import TableProduct from "../../../../components/tableAdmin/tableProduct.jsx";
+import TableProduct from "../../../components/tableAdmin/tableProduct.jsx";
 import {useState} from "react";
-import ProductPopupForm from "./ManageProduct.jsx";
+import ProductPopupForm from "./Products/ManageProduct.jsx";
 
 const Products = () => {
 

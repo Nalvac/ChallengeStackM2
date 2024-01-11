@@ -9,8 +9,8 @@ import Admin from "./pages/admin/Admin.jsx";
 import VaccineByPeriod from "./pages/admin/Indicator/VaccineByPeriod.jsx";
 import VaccineByZone from "./pages/admin/Indicator/VaccineByZone.jsx";
 import VaccineBySupplier from "./pages/admin/Indicator/VaccineBySupplier.jsx";
-import ProductBatch from "./pages/admin/Data/Products/ProductBatch.jsx";
-import Products from "./pages/admin/Data/Products/Products.jsx";
+import ProductBatch from "./pages/admin/Data/ProductBatch.jsx";
+import Products from "./pages/admin/Data/Products.jsx";
 import Roles from "./pages/admin/Data/Roles.jsx";
 import Transaction from "./pages/admin/Data/Transaction.jsx";
 
