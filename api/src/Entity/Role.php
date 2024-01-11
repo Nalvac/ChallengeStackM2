@@ -7,10 +7,12 @@ use App\Repository\RoleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RoleRepository::class)]
 #[ApiResource]
+#[ORM\Table(uniqueConstraints: [new UniqueConstraint(columns: ['role'], name: 'unique_role')])]
 class Role
 {
     #[ORM\Id]
