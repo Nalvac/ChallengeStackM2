@@ -24,6 +24,7 @@ class Role
     private ?string $role = null;
 
     #[ORM\OneToMany(mappedBy: 'roles', targetEntity: User::class)]
+    #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private Collection $user;
 
     public function __construct()

@@ -32,6 +32,7 @@ class Product
     private ?int $stock_alert = null;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductBatch::class)]
+    #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private Collection $productBatches;
 
     #[ORM\Column(length: 255)]

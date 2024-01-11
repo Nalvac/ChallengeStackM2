@@ -3,13 +3,38 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Controller\TensionVaccinController;
 use App\Repository\CustomerTransactionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CustomerTransactionRepository::class)]
-#[ApiResource]
+#[ApiResource(operations: [
+  new Get(),
+  new GetCollection(),
+  new Get(
+    uriTemplate: '/best/vaccin',
+    controller: TensionVaccinController::class,
+    description: 'Get the best vaccin',
+    normalizationContext: ['groups' => ['getCustomerTransaction']],
+    name: 'get_tension_vaccin'
+  ),
+  new Post(),
+  new Post(
+    uriTemplate: '/tension/vaccin',
+    controller: TensionVaccinController::class,
+    description: 'Get Vaccin by Years',
+    name: 'get_tension_vaccin'
+  ),
+  new Put(),
+  new Delete()
+])]
 class CustomerTransaction
 {
     #[ORM\Id]
@@ -27,11 +52,11 @@ class CustomerTransaction
     private ?\DateTimeInterface $deliveryDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'customerTransactions')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?ProductBatch $productBatch = null;
 
     #[ORM\ManyToOne(inversedBy: 'customerTransactions')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $user = null;
 
     public function getId(): ?int
