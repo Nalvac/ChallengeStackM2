@@ -35,4 +35,15 @@ class ProductBatchRepository extends ServiceEntityRepository
 
     return $qb->getQuery()->getResult();
   }
+
+  public function getAllStockProductBatchByProductId(int $productId): array
+  {
+    $qb = $this->createQueryBuilder('pb');
+
+    $qb->select('SUM(pb.quantity) as quantite')
+      ->where('pb.product = :productId')
+      ->setParameter('productId', $productId);
+
+    return $qb->getQuery()->getSingleResult();
+  }
 }

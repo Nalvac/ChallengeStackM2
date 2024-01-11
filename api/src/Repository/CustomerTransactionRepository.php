@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\CustomerTransaction;
 use App\Entity\Product;
 use App\Entity\ProductBatch;
+use App\Entity\Role;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -46,7 +47,7 @@ class CustomerTransactionRepository extends ServiceEntityRepository
       $dateLikes = $deliveryDates . '%';
 
 
-      $qb->select('SUM(ct.quantity) as quantite', 'p.name', 'p.brand', 'ct.deliveryDate')
+      $qb->select('SUM(ct.quantity) as quantite', 'p.name', 'p.brand', 'ct.deliveryDate', 'p.id')
         ->innerJoin(ProductBatch::class, 'pb', 'WITH', 'pb.id = ct.productBatch')
         ->innerJoin(Product::class, 'p', 'WITH', 'p.id = pb.product')
         ->where($qb->expr()->in('p.id', ':productIds'))
@@ -94,5 +95,35 @@ class CustomerTransactionRepository extends ServiceEntityRepository
     return $qb->getQuery()->getSingleResult();
   }
 
+  public function getCommandByOfficineId(string $officineId): array
+  {
+    $qb = $this->createQueryBuilder('ct');
 
+    $qb->select('p.name as product_name', 'p.brand',  'ct.quantity', 'ct.deliveryDate', 'user.name')
+      ->innerJoin(ProductBatch::class, 'pb', 'WITH', 'pb.id = ct.productBatch')
+      ->innerJoin(Product::class, 'p', 'WITH', 'p.id = pb.product')
+      ->innerJoin(User::class, 'user', 'WITH', 'user.id = ct.user')
+      ->innerJoin(Role::class, 'r', 'WITH', 'r.id = user.roles')
+      ->where('r.role = :role')
+      ->andWhere('user.id = :officineId')
+      ->setParameter('role', 'Officine')
+      ->setParameter('officineId', $officineId)
+      ->orderBy('ct.deliveryDate', 'DESC');
+
+
+    return $qb->getQuery()->getResult();
+  }
+
+  public function getAllStockCustomerTransactionByProductId(int $idProduct): array
+  {
+    $qb = $this->createQueryBuilder('ct');
+
+    $qb->select('SUM(ct.quantity) as quantite')
+      ->innerJoin(ProductBatch::class, 'pb', 'WITH', 'pb.id = ct.productBatch')
+      ->innerJoin(Product::class, 'p', 'WITH', 'p.id = pb.product')
+      ->where('p.id = :idProduct')
+      ->setParameter('idProduct', $idProduct);
+
+    return $qb->getQuery()->getSingleResult();
+  }
 }
