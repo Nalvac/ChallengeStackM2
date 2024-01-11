@@ -9,6 +9,7 @@ import Signup from "../../pages/Singup/Signup.jsx";
 const TableUser = () => {
   const [data, setData] = useState([]);
   const [role, setRole] = useState('');
+  const [existingUser, setExistingUser] = useState();
   const [isModalOpen, setModalOpen] = useState(false);
 
   const getUsersList = async () => {
@@ -27,12 +28,14 @@ const TableUser = () => {
     // console.log(response);
   }
 
-  const openModal = () => {
+  const openModal = (user) => {
     setModalOpen(true);
+    setExistingUser(user);
   };
 
   const closeModal = () => {
     setModalOpen(false);
+    setExistingUser(undefined);
   };
 
     return (
@@ -48,7 +51,7 @@ const TableUser = () => {
           <Column title="Role" dataIndex="roles" key="roles"/>
           <Column title="Action" key="action" className={"admin-action-title"} render={(_, record) => (
             <Space size="middle">
-              <a href={"#"} className={"btn secondary admin-action"}>
+              <a href={"#"} className={"btn secondary admin-action"} onClick={() => openModal(record)}>
                 Modifier
               </a>
               <span className="admin-action delete" onClick={() => {
@@ -62,6 +65,7 @@ const TableUser = () => {
             closeModal={closeModal}
             openModal={openModal}
             isModalOpen={isModalOpen}
+            userValue={existingUser}
           />
         }
       </div>
