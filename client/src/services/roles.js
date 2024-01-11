@@ -12,6 +12,16 @@ export async function getRoles() {
   }
 }
 
+export async function getRoleById(pathRoleId) {
+  try {
+    const response = await axios.get(`http://localhost:8000${pathRoleId}`);
+    return response.data;
+  } catch (e)
+  {
+    console.log(e);
+  }
+}
+
 export async function addRole(roleName) {
   try {
     return await axios.post(`${API_URL}/roles`, JSON.stringify({
