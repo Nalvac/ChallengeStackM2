@@ -20,9 +20,9 @@ const ProductPopupForm = ({openModal, isModalOpen, closeModal}) => {
   const initialValues =  {
     name: '',
     brand: '',
-    alertStock: 0,
-    totalStock: 0,
-    type: '',
+    alertStock: '',
+    totalStock: '',
+    type: 'NORMAL',
   }
 
   const {
