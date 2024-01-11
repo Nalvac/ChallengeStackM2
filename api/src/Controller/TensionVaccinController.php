@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\CustomerTransactionRepository;
 use App\Repository\ProductBatchRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,12 +28,43 @@ class TensionVaccinController extends AbstractController
       $data = $request->getContent();
       $jsonData = json_decode($data, true);
 
+      $groupedByMonth = array_fill_keys([
+        "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+        "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+      ], []);
+
+
+
       $date = $jsonData['deliveryDate'];
       $product = $jsonData['productId'];
 
       $tensionVaccin = $customerTransactionRepository->findVaccinByQuantityByDate($product, $date);
 
-      $res = $serializer->serialize($tensionVaccin, 'json');
+      foreach ($tensionVaccin as $entry) {
+        $deliveryDate = $entry['deliveryDate'];
+        $monthIndex = (int)$deliveryDate->format('m') - 1; // -1 car l'indexation des tableaux commence à 0
+        $monthNames = array_keys($groupedByMonth);
+        $monthName = $monthNames[$monthIndex];
+
+        // Clé unique basée sur l'ID du produit pour le mois.
+        $productId = $entry['id'];
+
+        // Vérifiez si le produit existe déjà pour ce mois.
+        if (isset($groupedByMonth[$monthName][$productId])) {
+          // Si le produit existe, additionnez les quantités.
+          $groupedByMonth[$monthName][$productId]['quantite'] += $entry['quantite'];
+        } else {
+          // Si le produit n'existe pas, ajoutez-le avec la quantité actuelle.
+          $groupedByMonth[$monthName][$productId] = [
+            'id' => $productId,
+            'quantite' => intval($entry['quantite']),
+            'name' => $entry['name'],
+            'brand' => $entry['brand']
+          ];
+        }
+      }
+
+      $res = $serializer->serialize($groupedByMonth, 'json');
 
       return new JsonResponse($res, 200, [], true);
     }
