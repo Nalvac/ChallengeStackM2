@@ -255,7 +255,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"name\": \"postman\",\r\n  \"mail\": \"johndoe@example.com\",\r\n  \"phone\": \"1234567890\",\r\n  \"zip_code\": 12345,\r\n  \"city\": \"City Name\",\r\n  \"adress\": \"123 Street Name\",\r\n  \"password\": \"mot_de_passe_secret\",\r\n  \"roles\": \"/api/roles/1\" \r\n}",
+					"raw": "{\r\n  \"name\": \"postman\",\r\n  \"mail\": \"johndoe@example.com\",\r\n  \"phone\": \"1234567890\",\r\n  \"zip_code\": 12345,\r\n  \"city\": \"City Name\",\r\n  \"adress\": \"123 Street Name\",\r\n  \"password\": \"mot_de_passe_secret\",\r\n  \"roles\": \"/api/roles/1\" ,\r\n  \"land\": \"Belgique\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
