@@ -3,12 +3,12 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use App\Repository\UsersRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: UsersRepository::class)]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource]
-class Users
+class User
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,7 +18,7 @@ class Users
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $mail = null;
 
     #[ORM\Column(length: 255)]
@@ -36,7 +36,10 @@ class Users
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $password = null;
 
-    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\Column(length: 255)]
+    private ?string $land = null;
+
+    #[ORM\ManyToOne(inversedBy: 'user')]
     #[ORM\JoinColumn(nullable: false)]
     private ?role $roles = null;
 
@@ -138,6 +141,17 @@ class Users
     {
         $this->roles = $roles;
 
+        return $this;
+    }
+
+    public function getLand(): ?string
+    {
+        return $this->land;
+    }
+
+    public function setLand(string $land): static
+    {
+        $this->land = $land;
         return $this;
     }
 }
