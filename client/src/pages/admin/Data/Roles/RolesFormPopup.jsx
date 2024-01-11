@@ -2,10 +2,10 @@ import Modal from 'react-modal';
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
+import {addRole, updateRole} from "../../../../services/roles.js";
 
 Modal.setAppElement('#root');
-const RolesFormPopup = ({openModal, isModalOpen, closeModal}) => {
-
+const RolesFormPopup = ({openModal, isModalOpen, closeModal, existingValue, roleId}) => {
 
   const validationSchema= yup.object(
     {
@@ -14,7 +14,7 @@ const RolesFormPopup = ({openModal, isModalOpen, closeModal}) => {
   )
 
   const initialValues =  {
-    name: '',
+    name: existingValue,
   }
 
   const {
@@ -23,8 +23,20 @@ const RolesFormPopup = ({openModal, isModalOpen, closeModal}) => {
   } = useForm({defaultValues: initialValues, resolver: yupResolver(validationSchema)});
 
   const submit = handleSubmit(async(values) => {
-    console.log(values);
-    closeModal()
+    let response;
+
+    if(existingValue && roleId)
+    {
+      response = await updateRole(values.name, roleId);
+    } else {
+      response = await addRole(values.name);
+    }
+
+    if(response && response.status === 201 || response.status === 200)
+    {
+      window.location.reload();
+    }
+    closeModal();
   })
 
 
