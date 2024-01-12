@@ -10,7 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
-#[ApiResource]
+#[ApiResource(
+  normalizationContext: ['groups' => ['getProducts']],
+)]
 class Product
 {
     #[ORM\Id]
@@ -20,7 +22,7 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['getProducts'])]
+    #[Groups(['getProducts', 'getProductBatch'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
@@ -33,9 +35,11 @@ class Product
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductBatch::class)]
     #[ORM\JoinColumn(onDelete: 'SET NULL')]
+    #[Groups(['getProducts'])]
     private Collection $productBatches;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['getProducts'])]
     private ?string $vaccinType = null;
 
     public function __construct()
