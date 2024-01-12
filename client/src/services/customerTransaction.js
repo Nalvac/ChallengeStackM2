@@ -2,9 +2,9 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8000/api";
 
-export async function getProductBatch() {
+export async function getCustomerTransaction() {
   try {
-    const response = await axios.get(`${API_URL}/product_batches`);
+    const response = await axios.get(`${API_URL}/customer_transactions`);
     return response.data;
   } catch (e)
   {
@@ -46,9 +46,9 @@ export async function getProductBatch() {
 //   }
 // }
 //
-export async function deleteProductBatchById(productBatchId) {
+export async function deleteCustomerTransactionById(customerTransactionId) {
   try {
-    return await axios.delete(`${API_URL}/roles/${productBatchId}`);
+    return await axios.delete(`${API_URL}/customer_transactions/${customerTransactionId}`);
   } catch (e)  {
     console.log(e);
   }

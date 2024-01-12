@@ -46,7 +46,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
   ),
   new Put(),
   new Delete()
-])]
+],
+normalizationContext: ['groups' => ['getCustomerTransaction']],
+)]
 class CustomerTransaction
 {
     #[ORM\Id]
@@ -65,10 +67,12 @@ class CustomerTransaction
 
     #[ORM\ManyToOne(inversedBy: 'customerTransactions')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    #[Groups(['getCustomerTransaction'])]
     private ?ProductBatch $productBatch = null;
 
     #[ORM\ManyToOne(inversedBy: 'customerTransactions')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    #[Groups(['getCustomerTransaction'])]
     private ?User $user = null;
 
     public function getId(): ?int
