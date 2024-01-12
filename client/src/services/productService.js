@@ -35,10 +35,7 @@ export async function updateProduct(productId, updatedProduct) {
   const product = {
     "name": updatedProduct.name,
     "brand": updatedProduct.brand,
-    "stock_alert": updatedProduct.stockAlert,
-    "productBatch": "/api/product_batches/2",
-    "vaccinType": updatedProduct.vaccinType,
-    "stockAlert": updatedProduct.stockAlert
+    "stockAlert": updatedProduct.stock_alert
   }
   try {
     return await axios.put(`${API_URL}/products/${productId}`, product)

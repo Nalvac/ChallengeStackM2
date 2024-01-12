@@ -13,8 +13,8 @@ const ProductPopupForm = ({openModal, isModalOpen, closeModal, product, products
     {
       name: yup.string(),
       brand: yup.string(),
-      stockAlert: yup.number(),
-      totalStock: yup.number(),
+      stock_alert: yup.number(),
+      stockTotal: yup.number(),
       vaccinType: yup.string(),
     }
   )
@@ -22,8 +22,8 @@ const ProductPopupForm = ({openModal, isModalOpen, closeModal, product, products
   const initialValues =  {
     name: product ? product.name : '',
     brand: product ? product.brand : '',
-    stockAlert: product ? product.stockAlert :'',
-    totalStock: product ? product.stockAlert :'',
+    stock_alert: product ? product.stock_alert :'',
+    stockTotal: product ? product.stockTotal :'',
     vaccinType: product ? product.vaccinType : '',
   }
 
@@ -43,6 +43,7 @@ const ProductPopupForm = ({openModal, isModalOpen, closeModal, product, products
 
     if(product)
     {
+      console.log(values);
       await updateProduct(product.id, {...values});
       setProducts(products.map((p) => p.id === product.id ? {...values, id: product.id} : p));
     } else {
@@ -73,7 +74,9 @@ const ProductPopupForm = ({openModal, isModalOpen, closeModal, product, products
         onRequestClose={closeModal}
         style={customStyles}
       >
-        <h2>Nouveau produit</h2>
+        {product ?
+          (<h2>Mise à jour du produit</h2>) : (<h2>Nouveau produit</h2>)
+        }
         <form onSubmit={(e) => {e.preventDefault(); submit()}}>
           <div className={'py-8 custom-form '}>
             <div className={`w-[351px] flex flex-row input-wrapper`}>
@@ -95,21 +98,21 @@ const ProductPopupForm = ({openModal, isModalOpen, closeModal, product, products
             <div className={`w-[351px] flex flex-row my-5 input-wrapper`}>
               <input
                 type='number'
-                name={'stockAlert'}
+                name={'stock_alert'}
                 placeholder='Alert Stock'
-                {...register('stockAlert')}
+                {...register('stock_alert')}
               />
             </div>
             <div className={`w-[351px] flex flex-row my-5 input-wrapper`}>
               <input
                 type='number'
-                name={'totalStock'}
+                name={'stockTotal'}
                 placeholder={'Total stock'}
-                {...register('totalStock')}
+                {...register('stockTotal')}
               />
             </div>
             <div className={`w-[351px] flex flex-row my-5 input-wrapper`}>
-              <select name={'type'} {...register('vaccinType')}>
+              <select  name={'type'} {...register('vaccinType')}>
                 <option value={'ARN'}>ARN</option>
                 <option value={'NORMAL'}>NORMAL</option>
               </select>

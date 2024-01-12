@@ -1,8 +1,7 @@
 import TableProductBatch from "../../../components/tableAdmin/tableProductBatch.jsx";
 import {useEffect, useState} from "react";
 import ProductBatchPopupForm from "./Products/ManageProductBatch.jsx";
-import {deleteProductById, getProductById, getProducts, getUserById} from "../../../services/productService.js";
-import {getProductBatch} from "../../../services/productBatchService.js";
+import {deleteProductBatchById, getProductBatch} from "../../../services/productBatchService.js";
 
 const ProductBatch = () => {
 
@@ -24,21 +23,12 @@ const ProductBatch = () => {
   const getProductBatchList = async () => {
     const response = await getProductBatch();
     console.log(response);
-    if (response) {
-      for (let batch of response) {
-        const productResponse = await getProductById(2);
-        const userResponse = await getUserById(2);
-
-        batch.productDetails = productResponse.data;
-        batch.userDetails = userResponse.data;
-      }
-    }
     setProductsBatch(response);
   }
 
   const deleteProduct = async (id) => {
-    await deleteProductById(id);
-    setProductsBatch(productBatch.filter((p) => p.id !== id ));
+    await deleteProductBatchById(id);
+    setProductsBatch(productsBatch.filter((p) => p.id !== id ));
   }
 
   useEffect(() => {
@@ -54,7 +44,7 @@ const ProductBatch = () => {
   return (
     <div className={"flex flex-col mt-12"}>
       <button className={"mb-4 btn secondary ml-auto"} onClick={openModal}>Créer un nouveau lot de produit</button>
-      <TableProductBatch productsBatch={productsBatch} editProductBatch={editProductBatch}/>
+      <TableProductBatch productsBatch={productsBatch} editProductBatch={editProductBatch} deleteProduct={deleteProduct}/>
         {isModalOpen &&
           <ProductBatchPopupForm
             closeModal={closeModal}
@@ -62,7 +52,7 @@ const ProductBatch = () => {
             isModalOpen={isModalOpen}
             productBatch={productBatch}
             productsBatch={productsBatch}
-            setProductsBatch={setProductBatch}
+            setProductsBatch={setProductsBatch}
         />
         }
     </div>

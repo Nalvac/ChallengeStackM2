@@ -14,7 +14,7 @@ const TableProduct = ({products, editProduct, deleteProduct}) => {
       <Table dataSource={[...products].reverse()} rowKey={'id'} >
         <Column title="Name" dataIndex="name" key="name"/>
         <Column title="Brand" dataIndex="brand" key="brand"/>
-        <Column title="Alert Stock" dataIndex="stockAlert" key="stockAlert"/>
+        <Column title="Alert Stock" dataIndex="stock_alert" key="stock_alert"/>
         <Column title="Total Stock" dataIndex="stockTotal" key="stockTotal"/>
         <Column title="Type" dataIndex="vaccinType" key="vaccinType"/>
         <Column title="Action" key="action" className={"admin-action-title"} render={(_, record) => (

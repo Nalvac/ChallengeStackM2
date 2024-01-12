@@ -1,7 +1,7 @@
 import {Space, Table} from "antd";
 const { Column } = Table;
 
-const TableProductBatch = ({productsBatch, editProductBatch}) => {
+const TableProductBatch = ({productsBatch, editProductBatch, deleteProduct}) => {
 
 
 
@@ -18,6 +18,7 @@ const TableProductBatch = ({productsBatch, editProductBatch}) => {
               Modifier
             </a>
             <span className="admin-action delete" onClick={() => {
+              deleteProduct(record.id)
             }}>Supprimer</span>
           </Space>
         )} />

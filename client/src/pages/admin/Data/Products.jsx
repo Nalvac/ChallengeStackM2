@@ -22,7 +22,16 @@ const Products = () => {
 
   const getProductList = async () => {
     const response = await getProducts();
-    setProducts(response);
+    const products = response.map(r => ({
+      id: r.id,
+      name: r.name,
+      brand: r.brand,
+      stock_alert: r.stock_alert,
+      vaccinType: r.vaccinType,
+      stockTotal: r.productBatches.reduce((total, productBatch) => total + productBatch.quantity, 0),
+
+    }))
+    setProducts(products);
   }
 
   const deleteProduct = async (id) => {

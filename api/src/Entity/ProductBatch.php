@@ -146,4 +146,15 @@ class ProductBatch
 
         return $this;
     }
+
+  public function findAllWithAssociations(): array
+  {
+    return $this->createQueryBuilder('pb')
+      ->leftJoin('pb.product', 'p')
+      ->leftJoin('pb.user', 'u')
+      ->addSelect('p')
+      ->addSelect('u')
+      ->getQuery()
+      ->getResult();
+  }
 }

@@ -8,7 +8,14 @@ export async function getProductBatch() {
     const response = await axios.get(`${API_URL}/product_batches`);
     const productBatches = response.data;
 
-    return productBatches;
+    return productBatches.map(batch => ({
+      id: batch.id,
+      dateExp: batch.dateExp.split("T")[0],
+      quantity: batch.quantity,
+      brand: batch.product?.name,
+      name: batch.user?.name,
+    }));
+
   } catch (e) {
     console.log(e);
   }
@@ -16,16 +23,14 @@ export async function getProductBatch() {
 
 
 export async function addProductBatch(addProduct) {
-  const product = {
-    "name": addProduct.name,
-    "brand": addProduct.brand,
-    "stock_alert": addProduct.stockAlert,
-    "productBatch": "/api/product_batches/2",
-    "vaccinType": addProduct.vaccinType,
-    "stockAlert": addProduct.stockAlert
+  const productBash = {
+    dateExp: addProduct.dateExp,
+    quantity: addProduct.batchStock,
+    product: '/api/products/2',
+    user: '/api/users/2'
   }
   try {
-    return await axios.post(`${API_URL}/products`, JSON.stringify(product), {headers: {
+    return await axios.post(`${API_URL}/product_batches`, JSON.stringify(productBash), {headers: {
         "Content-Type" : "application/json",
       }});
   } catch (e) {
@@ -34,16 +39,16 @@ export async function addProductBatch(addProduct) {
 }
 
 export async function updateProductBatch(productId, updatedProduct) {
-  const product = {
-    "name": updatedProduct.name,
-    "brand": updatedProduct.brand,
-    "stock_alert": updatedProduct.stockAlert,
-    "productBatch": "/api/product_batches/2",
-    "vaccinType": updatedProduct.vaccinType,
-    "stockAlert": updatedProduct.stockAlert
+
+  const productBash = {
+    dateExp: updatedProduct.dateExp,
+    quantity: updatedProduct.quantity,
+    product: '/api/products/2',
+    user: '/api/users/2'
   }
+
   try {
-    return await axios.put(`${API_URL}/products/${productId}`, product)
+    return await axios.put(`${API_URL}/product_batches/${productId}`, productBash)
   } catch (e) {
     console.log(e);
   }
