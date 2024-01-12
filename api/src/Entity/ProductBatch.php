@@ -35,7 +35,7 @@ class ProductBatch
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['getProductBatch', 'getProducts'])]
+    #[Groups(['getProductBatch', 'getProducts', 'getCustomerTransaction'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]

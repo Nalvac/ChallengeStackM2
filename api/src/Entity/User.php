@@ -18,11 +18,11 @@ class User
   #[ORM\Id]
   #[ORM\GeneratedValue]
   #[ORM\Column]
-  #[Groups(['getUsers'])]
+  #[Groups(['getUsers', 'getCustomerTransaction'])]
   private ?int $id = null;
 
   #[ORM\Column(length: 255)]
-  #[Groups(['getUsers', 'getProductBatch'])]
+  #[Groups(['getUsers', 'getProductBatch', 'getCustomerTransaction'])]
   private ?string $name = null;
 
   #[ORM\Column(length: 255)]
