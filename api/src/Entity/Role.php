@@ -16,11 +16,11 @@ class Role
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['getRoles'])]
+    #[Groups(['getRoles', 'getUsers'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['getRoles'])]
+    #[Groups(['getRoles', 'getUsers'])]
     private ?string $role = null;
 
     #[ORM\OneToMany(mappedBy: 'roles', targetEntity: User::class)]

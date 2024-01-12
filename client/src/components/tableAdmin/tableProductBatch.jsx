@@ -1,8 +1,8 @@
 import {Space, Table} from "antd";
 const { Column } = Table;
-import {useEffect, useState} from "react";
 
 const TableProductBatch = ({productsBatch, editProductBatch}) => {
+
 
 
   return (
@@ -18,7 +18,6 @@ const TableProductBatch = ({productsBatch, editProductBatch}) => {
               Modifier
             </a>
             <span className="admin-action delete" onClick={() => {
-              console.log('Setup delete')
             }}>Supprimer</span>
           </Space>
         )} />

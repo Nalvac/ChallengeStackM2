@@ -7,45 +7,58 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ApiResource]
+#[ApiResource(
+  normalizationContext: ['groups' => ['getUsers']],
+)]
 class User
 {
   #[ORM\Id]
   #[ORM\GeneratedValue]
   #[ORM\Column]
+  #[Groups(['getUsers'])]
   private ?int $id = null;
 
   #[ORM\Column(length: 255)]
+  #[Groups(['getUsers', 'getProductBatch'])]
   private ?string $name = null;
 
   #[ORM\Column(length: 255)]
+  #[Groups(['getUsers'])]
   private ?string $mail = null;
 
   #[ORM\Column(length: 255)]
+  #[Groups(['getUsers'])]
   private ?string $phone = null;
 
   #[ORM\Column]
-  private ?int $zip_code = null;
+  #[Groups(['getUsers'])]
+  private ?string $zip_code = null;
 
   #[ORM\Column(length: 255)]
+  #[Groups(['getUsers'])]
   private ?string $city = null;
 
   #[ORM\Column(length: 255)]
+  #[Groups(['getUsers'])]
   private ?string $adress = null;
 
   #[ORM\Column(length: 255, nullable: true)]
+  #[Groups(['getUsers'])]
   private ?string $password = null;
 
   #[ORM\ManyToOne(inversedBy: 'user')]
   #[ORM\JoinColumn(nullable: false)]
+  #[Groups(['getUsers'])]
   private ?Role $roles = null;
 
   #[ORM\OneToMany(mappedBy: 'user', targetEntity: ProductBatch::class)]
   private Collection $productBatches;
 
   #[ORM\Column(length: 255)]
+  #[Groups(['getUsers'])]
   private ?string $land = null;
 
   #[ORM\OneToMany(mappedBy: 'user', targetEntity: CustomerTransaction::class)]
@@ -102,12 +115,12 @@ class User
     return $this;
   }
 
-  public function getZipCode(): ?int
+  public function getZipCode(): ?string
   {
     return $this->zip_code;
   }
 
-  public function setZipCode(int $zip_code): static
+  public function setZipCode(string $zip_code): static
   {
     $this->zip_code = $zip_code;
 
