@@ -29,13 +29,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
   ),
   new Put(),
   new Delete(),
-])]
+],normalizationContext: ['groups' => ['getProductBatch']])]
 class ProductBatch
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['getProductBatch'])]
+    #[Groups(['getProductBatch', 'getProducts'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -43,15 +43,17 @@ class ProductBatch
     private ?\DateTimeInterface $dateExp = null;
 
     #[ORM\Column]
-    #[Groups(['getProductBatch'])]
+    #[Groups(['getProductBatch', 'getProducts'])]
     private ?int $quantity = null;
 
     #[ORM\ManyToOne(inversedBy: 'productBatches')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    #[Groups(['getProductBatch'])]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'productBatches')]
     #[ORM\JoinColumn(onDelete: 'SET NULL')]
+    #[Groups(['getProductBatch'])]
     private ?User $user = null;
 
     #[ORM\OneToMany(mappedBy: 'productBatch', targetEntity: CustomerTransaction::class)]
