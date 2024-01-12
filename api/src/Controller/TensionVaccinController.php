@@ -61,6 +61,19 @@ class TensionVaccinController extends AbstractController
             'name' => $entry['name'],
             'brand' => $entry['brand']
           ];
+
+          foreach ($groupedByMonth as $month => $product)
+          {
+            if(!isset($groupedByMonth[$month][$productId]))
+            {
+              $groupedByMonth[$month][$productId] = [
+                'id' => $productId,
+                'quantite' => 0,
+                'name' => $entry['name'],
+                'brand' => $entry['brand']
+              ];
+            }
+          }
         }
       }
 

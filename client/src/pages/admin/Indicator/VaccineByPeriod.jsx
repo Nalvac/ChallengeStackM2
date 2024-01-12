@@ -1,7 +1,7 @@
 import IndicatorPerform from "../../../components/IndicatorPerform/IndicatorPerform.jsx";
 import CustomChart from "../../../components/Chart/CustomChart.jsx";
 import {useForm} from "react-hook-form";
-import {getVaccineByPeriod} from "../../../services/indicators.js";
+import {getBestSellingVaccine, getVaccineByPeriod} from "../../../services/indicators.js";
 import {useEffect, useState} from "react";
 import {getProducts} from "../../../services/products.js";
 import randomRGB from "../../../helpers/randomColor.js";
@@ -27,14 +27,21 @@ export default function VaccineByPeriod () {
 
   const [products, setProducts] = useState([]);
   const [indicators, setIndicators] = useState([]);
+  const [bestVaccine, setBestVaccine] = useState([]);
 
   const getListProducts = async () => {
     const response = await getProducts();
     setProducts(response);
   }
 
+  const getBestVaccine = async () => {
+    const response = await getBestSellingVaccine();
+    setBestVaccine(response);
+  }
+
   useEffect(() => {
     getListProducts();
+    getBestVaccine();
   }, []);
 
   let chartData = [];
@@ -49,56 +56,54 @@ export default function VaccineByPeriod () {
     }
   }
 
-  if(indicators)
-  {
+  if (indicators) {
     const multiSelect = document.querySelector('#period-selector');
 
-    if(multiSelect)
-    {
-      for(const option of multiSelect.options)
-      {
-        if (option.selected)
-        {
+    if (multiSelect) {
+      for (const option of multiSelect.options) {
+        if (option.selected) {
           labels.push(option.text);
         }
       }
     }
 
+    let vaccineDataMap = {};
 
-    for(let [key, value] of Object.entries(indicators)) {
-      labels.forEach(label => {
-        if(key === label)
-        {
-          if(value)
-          {
-            for(let [childKey, childValue] of Object.entries(value))
-            {
-              console.log(childValue.brand);
+    for (let [key, value] of Object.entries(indicators)) {
+      if (labels.includes(key)) {
+        for (let [childKey, childValue] of Object.entries(value)) {
+          let vaccineKey = childValue.name + ' ' + childValue.brand;
 
-              chartData.push({
-                label: childValue.name + ' ' + childValue.brand,
-                data: labels.map(() => childValue.quantite),
-                backgroundColor: randomRGB(),
-              });
-            }
+          if (!vaccineDataMap[vaccineKey]) {
+            vaccineDataMap[vaccineKey] = new Array(labels.length).fill(0);
           }
+
+          let labelIndex = labels.indexOf(key);
+          vaccineDataMap[vaccineKey][labelIndex] = childValue.quantite || 0;
         }
-      })
+      }
+    }
+
+    for (let [vaccine, data] of Object.entries(vaccineDataMap)) {
+      chartData.push({
+        label: vaccine,
+        data: data,
+        backgroundColor: randomRGB(),
+      });
     }
 
     dataVaccine = {
       labels,
-      datasets : chartData
+      datasets: chartData
     };
   }
 
-  console.log(indicators);
   return (
     <>
       {dataVaccine &&
         <CustomChart type={'bar'} options={options} data={dataVaccine}/>
       }
-      <IndicatorPerform displayText={'Le vaccin vendu le plus sur cette période est l’hépatite A'}></IndicatorPerform>
+      <IndicatorPerform displayText={`Le vaccin vendu le plus sur cette période est ${bestVaccine.name} ${bestVaccine.brand}`}></IndicatorPerform>
       <form className={"flex flex-row"} onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label htmlFor={"name"}>Produits</label>
