@@ -23,7 +23,7 @@ export default function VaccineByPeriod () {
     },
   };
 
-  let labels = [];
+
 
   const [products, setProducts] = useState([]);
   const [indicators, setIndicators] = useState([]);
@@ -37,66 +37,62 @@ export default function VaccineByPeriod () {
     getListProducts();
   }, []);
 
+  let chartData = [];
+  let dataVaccine;
+  let labels = [];
+
   const onSubmit = async (data) => {
     const response = await getVaccineByPeriod(data.products, data.year);
     if(response && response.status === 200)
     {
-      console.log(response);
       setIndicators(response.data);
-    }
 
-    const multiSelect = document.querySelector('#period-selector');
-    const options = multiSelect.options;
-    for(const option of multiSelect.options)
-    {
-      if (option.selected)
+      const multiSelect = document.querySelector('#period-selector');
+
+      for(const option of multiSelect.options)
       {
-        console.log(option.value);
-        console.log(option.text);
-        labels.push(option.text.toString());
+        if (option.selected)
+        {
+          labels.push(option.text);
+        }
       }
+
+      for(let [key, value] of Object.entries(indicators)) {
+        labels.forEach(label => {
+          if(key === label)
+          {
+            if(value)
+            {
+              for(let [childKey, childValue] of Object.entries(value))
+              {
+                  console.log(childValue.brand);
+
+                  chartData.push({
+                    label: childValue.name + ' ' + childValue.brand,
+                    data: labels.map(() => childValue.quantite),
+                    backgroundColor: randomRGB(),
+                  });
+              }
+            }
+          }
+        })
+      }
+
+      dataVaccine = {
+        labels,
+        datasets : chartData
+      };
+
+      console.log(chartData);
+      console.log(dataVaccine);
     }
   }
 
-  console.log(indicators);
-  console.log(labels);
-
-  let chartData = [];
-
-  indicators.forEach(indicator => {
-    chartData.push({
-      label: indicator.name + ' ' + indicator.brand,
-      data: labels.map(() => indicator.quantite),
-      backgroundColor: randomRGB(),
-    });
-  });
-
-  const data = {
-    labels,
-    datasets : chartData
-  };
-
-  // function submitPeriod() {
-  //   const multiSelect = document.querySelector('#period-selector');
-  //
-  //   const options = multiSelect.options;
-  //
-  //   console.log(multiSelect);
-  //
-  //   for(const option of multiSelect.options)
-  //   {
-  //     if (option.selected)
-  //     {
-  //       console.log(option.value);
-  //       console.log(option.text);
-  //       labels.push(option.text.toString());
-  //     }
-  //   }
-  // }
-
   return (
     <>
-      <CustomChart type={'bar'} options={options} data={data}/>
+      {indicators.length > 0 &&
+        <CustomChart type={'bar'} options={options} data={dataVaccine}/>
+       }
       <IndicatorPerform displayText={'Le vaccin vendu le plus sur cette période est l’hépatite A'}></IndicatorPerform>
       <form className={"flex flex-row"} onSubmit={handleSubmit(onSubmit)}>
         <div>
@@ -108,7 +104,6 @@ export default function VaccineByPeriod () {
               )
             })}
           </select>
-          {/*<input type={"text"} placeholder={"Produits"} {...register("products", { required: true})}/>*/}
           {errors.name && <p className={"italic text-red-500 mb-4"}>Veuillez choisir des produits</p>}
         </div>
 
@@ -133,14 +128,8 @@ export default function VaccineByPeriod () {
           <option key={"11"} value={"12"}>Décembre</option>
 
         </select>
-
         <input className={''} type={"submit"} value={'Charger'}/>
       </form>
-
-      {/*<div>*/}
-      {/*  */}
-      {/*  <button className={''} onClick={submitPeriod}>Sélectionner cette période</button>*/}
-      {/*</div>*/}
     </>
   )
 }
