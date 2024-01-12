@@ -12,6 +12,15 @@ export async function getUsers() {
   }
 }
 
+export async function getUserById(userId) {
+  try {
+    const response = await axios.get(`${API_URL}/users/${userId}`);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function addUser(name, mail, phone, zip_code, city, land, address, password, roleId) {
   console.log(name, mail, phone, zip_code, city, land, address, password, roleId);
   try {
@@ -34,7 +43,7 @@ export async function addUser(name, mail, phone, zip_code, city, land, address, 
 }
 
 export async function updateUser(name, mail, phone, zip_code, city, land, address, password, roleId, userId) {
-  console.log(name, mail, phone, zip_code, city, land, address, password, `/api/roles/${roleId}`);
+  console.log(name, mail, phone, zip_code, city, land, address, password, `${roleId}`, userId);
   try {
     return await axios.put(`${API_URL}/users/${userId}`, JSON.stringify({
       name: name,

@@ -2,7 +2,7 @@
 import {Space, Table} from "antd";
 const { Column } = Table;
 import {useEffect, useState} from "react";
-import {deleteUserById, getUsers} from "../../services/users.js";
+import {deleteUserById, getUserById, getUsers} from "../../services/users.js";
 import Signup from "../../pages/Singup/Signup.jsx";
 import {deleteRoleById} from "../../services/roles.js";
 
@@ -35,6 +35,11 @@ const TableUser = () => {
     setData(data.filter(item => item.id !== userId));
   }
 
+  const editUser = async (userId) => {
+    const response = await getUserById(userId);
+    setData(data.filter(item => item.id !== userId));
+    openModal(response);
+  }
     return (
       <div className="mt-5 mb-10 admin-table">
         <Table dataSource={data} rowKey={'id'}>
@@ -48,7 +53,7 @@ const TableUser = () => {
           <Column title="Role" dataIndex="roles" key="roles" render={roles => roles ? roles.role : "" }/>
           <Column title="Action" key="action" className={"admin-action-title"} render={(_, record) => (
             <Space size="middle">
-              <a href={"#"} className={"btn secondary admin-action"} onClick={() => openModal(record)}>
+              <a href={"#"} className={"btn secondary admin-action"} onClick={() => editUser(record.id)}>
                 Modifier
               </a>
               <span className="admin-action delete" onClick={() => {

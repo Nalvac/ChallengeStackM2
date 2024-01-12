@@ -57,7 +57,7 @@ export default function Signup({openModal, isModalOpen, closeModal, userValue}) 
 
     if(userValue)
     {
-      response = await updateUser(user.name, user.mail, user.phone, user.zipCode, user.city, user.land, user.address, user.password, user.roles);
+      response = await updateUser(user.name, user.mail, user.phone, user.zipCode, user.city, user.land, user.address, user.password, user.roles, userValue.id);
     } else {
       response = await addUser(user.name, user.mail, user.phone, user.zipCode, user.city, user.land, user.address, user.password, user.roles);
     }
