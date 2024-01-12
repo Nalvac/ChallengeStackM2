@@ -3,17 +3,19 @@ import axios from 'axios';
 const API_URL = "https://localhost:8000/api";
 
 
-export async function getProducts() {
+export async function getProductBatch() {
   try {
-    const response = await axios.get(`${API_URL}/products`);
-    return response.data;
-  } catch (e)
-  {
+    const response = await axios.get(`${API_URL}/product_batches`);
+    const productBatches = response.data;
+
+    return productBatches;
+  } catch (e) {
     console.log(e);
   }
 }
 
-export async function addProduct(addProduct) {
+
+export async function addProductBatch(addProduct) {
   const product = {
     "name": addProduct.name,
     "brand": addProduct.brand,
@@ -31,7 +33,7 @@ export async function addProduct(addProduct) {
   }
 }
 
-export async function updateProduct(productId, updatedProduct) {
+export async function updateProductBatch(productId, updatedProduct) {
   const product = {
     "name": updatedProduct.name,
     "brand": updatedProduct.brand,
@@ -47,25 +49,9 @@ export async function updateProduct(productId, updatedProduct) {
   }
 }
 
-export async function deleteProductById(productId) {
+export async function deleteProductBatchById(productId) {
   try {
     return await axios.delete(`${API_URL}/products/${productId}`);
-  } catch (e)  {
-    console.log(e);
-  }
-}
-
-export async function getProductById(productId) {
-  try {
-    return await axios.get(`${API_URL}/products/${productId}`);
-  } catch (e)  {
-    console.log(e);
-  }
-}
-
-export async function getUserById(userId) {
-  try {
-    return await axios.get(`${API_URL}/users/${userId}`);
   } catch (e)  {
     console.log(e);
   }

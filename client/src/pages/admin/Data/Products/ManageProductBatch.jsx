@@ -2,9 +2,11 @@ import Modal from 'react-modal';
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
+import {addProduct, updateProduct} from "../../../../services/productService.js";
+import {updateProductBatch} from "../../../../services/productBatchService.js";
 
 Modal.setAppElement('#root');
-const ProductBatchPopupForm = ({openModal, isModalOpen, closeModal}) => {
+const ProductBatchPopupForm = ({openModal, isModalOpen, closeModal, productBatch, productsBatch, setProductsBatch}) => {
 
 
   const validationSchema= yup.object(
@@ -17,10 +19,10 @@ const ProductBatchPopupForm = ({openModal, isModalOpen, closeModal}) => {
   )
 
   const initialValues =  {
-    brandName: '',
-    supplier: '',
-    batchStock: '',
-    expirationDate: '',
+    brandName: productBatch ? productBatch.brand : '',
+    supplier: productBatch ? productBatch.name :  '',
+    batchStock: productBatch ? productBatch.quantity : '',
+    expirationDate: productBatch ? productBatch.dateExp : '',
   }
 
   const {
@@ -29,9 +31,21 @@ const ProductBatchPopupForm = ({openModal, isModalOpen, closeModal}) => {
   } = useForm({defaultValues: initialValues, resolver: yupResolver(validationSchema)});
 
 
+
+
   const submit = handleSubmit(async(values) => {
-    console.log(values);
-    closeModal()
+
+    if(productBatch)
+    {
+      await updateProductBatch(productBatch.id, {...productsBatch, quantity: values.batchStock, dateExp: values.expirationDate});
+      setProductsBatch(productsBatch.map((p) => p.id === productBatch.id ? {...values, id: productBatch.id} : p));
+    } else {
+
+      await addProduct(values)
+      setProductsBatch([...productsBatch, {...values, id: productsBatch[productsBatch.length -1].id + 1}])
+    }
+
+    closeModal();
   })
 
 
@@ -51,7 +65,9 @@ const ProductBatchPopupForm = ({openModal, isModalOpen, closeModal}) => {
         onRequestClose={closeModal}
         style={customStyles}
       >
-        <h2>Nouveau lot de produit</h2>
+        {productBatch ?
+          (<h2>Mise à jour du lot de produit</h2>) : (<h2>Nouveau lot de produit</h2>)
+        }
         <form onSubmit={submit}>
           <div className={'py-8 custom-form '}>
             <div className={`w-[351px] flex flex-row input-wrapper`}>
@@ -80,6 +96,7 @@ const ProductBatchPopupForm = ({openModal, isModalOpen, closeModal}) => {
             </div>
             <div className={`w-[351px] flex flex-row my-5 input-wrapper`}>
               <input
+                value={productBatch ? initialValues.expirationDate : ''}
                 type='date'
                 name={'expirationDate'}
                 {...register('expirationDate')}
