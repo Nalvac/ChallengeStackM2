@@ -46,9 +46,15 @@ export default function VaccineByPeriod () {
     if(response && response.status === 200)
     {
       setIndicators(response.data);
+    }
+  }
 
-      const multiSelect = document.querySelector('#period-selector');
+  if(indicators)
+  {
+    const multiSelect = document.querySelector('#period-selector');
 
+    if(multiSelect)
+    {
       for(const option of multiSelect.options)
       {
         if (option.selected)
@@ -56,47 +62,46 @@ export default function VaccineByPeriod () {
           labels.push(option.text);
         }
       }
+    }
 
-      for(let [key, value] of Object.entries(indicators)) {
-        labels.forEach(label => {
-          if(key === label)
+
+    for(let [key, value] of Object.entries(indicators)) {
+      labels.forEach(label => {
+        if(key === label)
+        {
+          if(value)
           {
-            if(value)
+            for(let [childKey, childValue] of Object.entries(value))
             {
-              for(let [childKey, childValue] of Object.entries(value))
-              {
-                  console.log(childValue.brand);
+              console.log(childValue.brand);
 
-                  chartData.push({
-                    label: childValue.name + ' ' + childValue.brand,
-                    data: labels.map(() => childValue.quantite),
-                    backgroundColor: randomRGB(),
-                  });
-              }
+              chartData.push({
+                label: childValue.name + ' ' + childValue.brand,
+                data: labels.map(() => childValue.quantite),
+                backgroundColor: randomRGB(),
+              });
             }
           }
-        })
-      }
-
-      dataVaccine = {
-        labels,
-        datasets : chartData
-      };
-
-      console.log(chartData);
-      console.log(dataVaccine);
+        }
+      })
     }
+
+    dataVaccine = {
+      labels,
+      datasets : chartData
+    };
   }
 
+  console.log(indicators);
   return (
     <>
-      {indicators.length > 0 &&
+      {dataVaccine &&
         <CustomChart type={'bar'} options={options} data={dataVaccine}/>
-       }
+      }
       <IndicatorPerform displayText={'Le vaccin vendu le plus sur cette période est l’hépatite A'}></IndicatorPerform>
       <form className={"flex flex-row"} onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <label htmlFor={"name"}>Nom de la catégorie</label>
+          <label htmlFor={"name"}>Produits</label>
           <select {...register("products")} multiple={true}>
             {products.map((product, key) => {
               return (
